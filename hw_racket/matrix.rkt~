@@ -1,0 +1,47 @@
+#lang racket
+
+;Calculates result of multiplication for two SAME rows, same as on paper
+(define (sum-of-rows row1 row2)
+  (if (null? row1)
+      0
+      (+
+       (* (car row1) (car row2))
+       (sum-of-rows (cdr row1) (cdr row2))
+      )
+  )
+)
+
+;Transposes given matrix
+(define (transpose-matrix matrix)
+  (if (null? (car matrix))    ;No more elements left, return empty
+      '()
+      (if (null? matrix)      ;Empty matrix, return empty
+          '()
+          (cons               ;Build new matrix with correct dimension
+           (map car matrix)   ;Take first number of all lists and make a new list out of them
+           (transpose-matrix (map cdr matrix)) ;Repeat for rest of the matrix (withous first elements in lists)
+          )
+      )
+  )
+)
+
+;Iterates over every row in matrix1/matrix2 and calculates their multiplicative sums
+;Prepares matrix2 by transposing it to same format as matrix1
+(define (matrix-mul matrix1 matrix2)
+  (map
+   (lambda (rowM1)
+     (map
+      (lambda (rowM2)
+        (sum-of-rows rowM1 rowM2))
+      (transpose-matrix matrix2)
+     )
+   ) matrix1
+  )
+)
+
+
+(matrix-mul '( (1 2 3) (4 1 1)) '( (1 2) (3 4) (2 1) ) ) ;→ '( (13 13) (9 13) )
+(matrix-mul '( (1 2 3) ) '( (1) (2) (3) ) ) ;→ '( ( 14 ) )
+(matrix-mul '( (2 2 2) (2 2 2) (2 2 2)) '( (2 2 2) (2 2 2) (2 2 2) ) ) ;→ '( (12 12 12) (12 12 12) (12 12 12) )
+(matrix-mul '( (1 1 1) (1 1 1) (1 1 1)) '( (1 1 1) (1 1 1) (1 1 1) ) ) ;→ '( (3 3 3) (3 3 3) (3 3 3) )
+(matrix-mul '( (5) ) '( (3) ) ) ;→ '( ( 15 ) )

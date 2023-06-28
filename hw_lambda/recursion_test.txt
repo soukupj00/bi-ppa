@@ -1,0 +1,15 @@
+f(0,0)=1
+f(0, m) = m + f(0, m - 1)
+f(n, 0) = n + f (n - 1, 0)
+f(n, m) = f(n, m - 1) + f(n - 1, m)
+
+R:=(λ f n m . AND (ZERO n) (ZERO m)
+                1
+            (AND (ZERO n) (NOT (ZERO m))
+                (+ m (f 0 (- m 1) ) )
+                (AND (NOT (ZERO n)) (ZERO m)
+                    (+ n (f (- n 1) 0) )
+                    (+ (f (- n 1) m) (f n (- m 1) ) )
+                )
+            )
+);

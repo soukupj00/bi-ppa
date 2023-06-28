@@ -1,0 +1,5 @@
+!f(0, 0) & !f(0, 1) & !f(1, 0) & f(1, 1)
+
+AND (AND (AND (NOT (f F F)) (NOT (f F T))) (NOT (f T F))) (f T T)
+
+ISAND := (λ f . AND (AND (AND (NOT (f F F)) (NOT (f F T))) (NOT (f T F))) (f T T))
